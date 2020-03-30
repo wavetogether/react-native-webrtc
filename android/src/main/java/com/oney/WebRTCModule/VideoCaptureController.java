@@ -24,9 +24,9 @@ public class VideoCaptureController {
      * Values for width, height and fps (respectively) which will be
      * used to open the camera at.
      */
-    private final int width;
-    private final int height;
-    private final int fps;
+    private int width;
+    private int height;
+    private int fps;
 
     private CameraEnumerator cameraEnumerator;
 
@@ -84,6 +84,18 @@ public class VideoCaptureController {
             return true;
         } catch (InterruptedException e) {
             return false;
+        }
+    }
+
+    public void updateConstraint(ReadableMap constraints) {
+        if (videoCapturer instanceof CameraVideoCapturer) {
+            VideoCapturer capturer = (VideoCapturer) videoCapturer;
+
+            width = constraints.getInt("width");
+            height = constraints.getInt("height");
+            fps = constraints.getInt("frameRate");
+
+            capturer.changeCaptureFormat(width, height, fps);
         }
     }
 

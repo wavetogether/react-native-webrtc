@@ -92,6 +92,17 @@ class MediaStreamTrack extends EventTarget(MEDIA_STREAM_TRACK_EVENTS) {
     WebRTCModule.mediaStreamTrackSwitchCamera(this.id);
   }
 
+
+  _updateConstraints(constraint) {
+    if (this.remote) {
+      throw new Error('Not implemented for remote tracks');
+    }
+    if (this.kind !== 'video') {
+      throw new Error('Only implemented for video tracks');
+    }
+    WebRTCModule.mediaStreamTrackUpdateConstraint(this.id, constraint);
+  }
+
   applyConstraints() {
     throw new Error('Not implemented.');
   }
