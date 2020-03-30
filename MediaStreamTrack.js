@@ -100,7 +100,7 @@ class MediaStreamTrack extends EventTarget(MEDIA_STREAM_TRACK_EVENTS) {
     if (this.kind !== 'video') {
       throw new Error('Only implemented for video tracks');
     }
-    WebRTCModule.mediaStreamTrackUpdateConstraint(this.id, constraint);
+    WebRTCModule.mediaStreamTrackUpdateConstraints(this.id, constraint);
   }
 
   applyConstraints() {

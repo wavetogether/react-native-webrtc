@@ -630,7 +630,7 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void mediaStreamTrackUpdateConstraint(String id, ReadableMap constraints) {
+    public void mediaStreamTrackUpdateConstraints(String id, ReadableMap constraints) {
         MediaStreamTrack track = getLocalTrack(id);
         if (track != null) {
             getUserMediaImpl.updateConstraints(id, constraints);
