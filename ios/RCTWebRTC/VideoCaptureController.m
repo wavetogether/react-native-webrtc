@@ -120,6 +120,14 @@
     [self startCapture];
 }
 
+-(void)updateConstraints: (NSDictionary*) constraints {
+    _width = [constraints[@"width"] intValue];
+    _height = [constraints[@"height"] intValue];
+    _fps = [constraints[@"frameRate"] intValue];
+
+    [self startCapture];
+}
+
 #pragma mark Private
 
 - (AVCaptureDevice *)findDeviceForPosition:(AVCaptureDevicePosition)position {
