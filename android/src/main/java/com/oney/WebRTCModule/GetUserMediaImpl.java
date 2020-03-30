@@ -239,7 +239,7 @@ class GetUserMediaImpl {
     void updateConstraints(String trackId, ReadableMap constraints) {
         TrackPrivate track = tracks.get(trackId);
         if (track != null && track.videoCaptureController != null) {
-            track.videoCaptureController.updateConstraint(constraints);
+            track.videoCaptureController.updateConstraints(constraints);
         }
     }
 

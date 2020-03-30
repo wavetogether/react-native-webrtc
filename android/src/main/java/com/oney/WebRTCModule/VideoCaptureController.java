@@ -87,7 +87,7 @@ public class VideoCaptureController {
         }
     }
 
-    public void updateConstraint(ReadableMap constraints) {
+    public void updateConstraints(ReadableMap constraints) {
         if (videoCapturer instanceof CameraVideoCapturer) {
             VideoCapturer capturer = (VideoCapturer) videoCapturer;
 
