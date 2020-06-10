@@ -1,6 +1,6 @@
 'use strict';
 
-import {NativeModules} from 'react-native';
+import { NativeModules, Platform } from "react-native";
 import EventTarget from 'event-target-shim';
 import uuid from 'uuid';
 
@@ -130,6 +130,8 @@ export default class MediaStream extends EventTarget(MEDIA_STREAM_EVENTS) {
   }
 
   setIsAudioEnabled(enabled) {
-    WebRTCModule.mediaStreamTrackSetIsAudioEnabled(enabled);
+    if (Platform.OS === "ios") {
+      WebRTCModule.mediaStreamTrackSetIsAudioEnabled(enabled);
+    }
   }
 }
