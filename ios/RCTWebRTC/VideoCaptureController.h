@@ -9,5 +9,6 @@
 -(void)startCapture;
 -(void)stopCapture;
 -(void)switchCamera;
+-(void)updateConstraints: (NSDictionary*) constraints;
 
 @end

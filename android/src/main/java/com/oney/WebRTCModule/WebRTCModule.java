@@ -1,6 +1,6 @@
 package com.oney.WebRTCModule;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -626,6 +626,14 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
         MediaStreamTrack track = getLocalTrack(id);
         if (track != null) {
             getUserMediaImpl.switchCamera(id);
+        }
+    }
+
+    @ReactMethod
+    public void mediaStreamTrackUpdateConstraints(String id, ReadableMap constraints) {
+        MediaStreamTrack track = getLocalTrack(id);
+        if (track != null) {
+            getUserMediaImpl.updateConstraints(id, constraints);
         }
     }
 

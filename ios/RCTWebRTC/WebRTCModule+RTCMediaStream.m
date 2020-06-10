@@ -237,6 +237,15 @@ RCT_EXPORT_METHOD(mediaStreamTrackSwitchCamera:(nonnull NSString *)trackID)
   }
 }
 
+RCT_EXPORT_METHOD(mediaStreamTrackUpdateConstraints:(nonnull NSString *)trackID : (NSDictionary *)constraints)
+{
+  RTCMediaStreamTrack *track = self.localTracks[trackID];
+  if (track) {
+    RTCVideoTrack *videoTrack = (RTCVideoTrack *)track;
+    [videoTrack.videoCaptureController updateConstraints:constraints];
+  }
+}
+
 #pragma mark - Helpers
 
 - (RTCMediaStreamTrack*)trackForId:(NSString*)trackId
