@@ -10,6 +10,7 @@
 #import <WebRTC/RTCCameraVideoCapturer.h>
 #import <WebRTC/RTCVideoTrack.h>
 #import <WebRTC/RTCMediaConstraints.h>
+#import <WebRTC/RTCAudioSession.h>
 
 #import "RTCMediaStreamTrack+React.h"
 #import "WebRTCModule+RTCPeerConnection.h"
@@ -64,6 +65,10 @@ RCT_EXPORT_METHOD(getUserMedia:(NSDictionary *)constraints
                  errorCallback:(RCTResponseSenderBlock)errorCallback) {
   RTCAudioTrack *audioTrack = nil;
   RTCVideoTrack *videoTrack = nil;
+    
+    RTCAudioSession *session = [RTCAudioSession sharedInstance];
+    [session setUseManualAudio:YES];
+    [session setIsAudioEnabled:YES];
 
   if (constraints[@"audio"]) {
       audioTrack = [self createAudioTrack:constraints];
@@ -244,6 +249,12 @@ RCT_EXPORT_METHOD(mediaStreamTrackUpdateConstraints:(nonnull NSString *)trackID 
     RTCVideoTrack *videoTrack = (RTCVideoTrack *)track;
     [videoTrack.videoCaptureController updateConstraints:constraints];
   }
+}
+
+RCT_EXPORT_METHOD(mediaStreamTrackSetIsAudioEnabled:(BOOL)audioEnabled)
+{
+    RTCAudioSession *session = [RTCAudioSession sharedInstance];
+    [session setIsAudioEnabled:audioEnabled];
 }
 
 #pragma mark - Helpers

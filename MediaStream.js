@@ -128,4 +128,8 @@ export default class MediaStream extends EventTarget(MEDIA_STREAM_EVENTS) {
   release() {
     WebRTCModule.mediaStreamRelease(this._reactTag);
   }
+
+  setIsAudioEnabled(enabled) {
+    WebRTCModule.mediaStreamTrackSetIsAudioEnabled(enabled);
+  }
 }
