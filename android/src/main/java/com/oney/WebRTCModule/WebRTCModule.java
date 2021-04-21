@@ -110,13 +110,10 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
             }
         }
 
-        if (adm == null) {
-            // Related issue: https://github.com/react-native-webrtc/react-native-webrtc/issues/713
-            adm = JavaAudioDeviceModule.builder(reactContext)
-                    .setUseHardwareAcousticEchoCanceler(false)
-                    .setUseHardwareNoiseSuppressor(false)
-                    .createAudioDeviceModule();
-        }
+        // Related issue: https://github.com/react-native-webrtc/react-native-webrtc/issues/713
+        adm = JavaAudioDeviceModule.builder(reactContext)
+                .setUseHardwareAcousticEchoCanceler(false)
+                .createAudioDeviceModule();
 
         mFactory
             = PeerConnectionFactory.builder()
