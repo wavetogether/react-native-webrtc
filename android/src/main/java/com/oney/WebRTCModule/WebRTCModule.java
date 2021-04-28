@@ -125,6 +125,7 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
         // Related issue: https://github.com/react-native-webrtc/react-native-webrtc/issues/713
         adm = JavaAudioDeviceModule.builder(reactContext)
                 .setUseHardwareAcousticEchoCanceler(false)
+                .setUseHardwareNoiseSuppressor(false)
                 .createAudioDeviceModule();
 
         mFactory
