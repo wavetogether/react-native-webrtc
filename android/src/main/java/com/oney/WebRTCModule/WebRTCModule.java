@@ -44,7 +44,8 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
         private Loggable injectableLogger = null;
         private Logging.Severity loggingSeverity = null;
 
-        public Options() {}
+        public Options() {
+        }
 
         public void setAudioDeviceModule(AudioDeviceModule audioDeviceModule) {
             this.audioDeviceModule = audioDeviceModule;
@@ -101,9 +102,9 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
         }
 
         PeerConnectionFactory.initialize(
-            PeerConnectionFactory.InitializationOptions.builder(reactContext)
-                .setInjectableLogger(injectableLogger, loggingSeverity)
-                .createInitializationOptions());
+                PeerConnectionFactory.InitializationOptions.builder(reactContext)
+                        .setInjectableLogger(injectableLogger, loggingSeverity)
+                        .createInitializationOptions());
 
         if (encoderFactory == null || decoderFactory == null) {
             // Initialize EGL context required for HW acceleration.
@@ -111,10 +112,10 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
 
             if (eglContext != null) {
                 encoderFactory
-                    = new DefaultVideoEncoderFactory(
-                    eglContext,
-                    /* enableIntelVp8Encoder */ true,
-                    /* enableH264HighProfile */ false);
+                        = new DefaultVideoEncoderFactory(
+                        eglContext,
+                        /* enableIntelVp8Encoder */ true,
+                        /* enableH264HighProfile */ false);
                 decoderFactory = new DefaultVideoDecoderFactory(eglContext);
             } else {
                 encoderFactory = new SoftwareVideoEncoderFactory();
@@ -122,12 +123,12 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
             }
         }
 
-        // Related issue: https://github.com/react-native-webrtc/react-native-webrtc/issues/713
         adm = JavaAudioDeviceModule.builder(reactContext)
+                .setUseHardwareAcousticEchoCanceler(false)
                 .createAudioDeviceModule();
 
         mFactory
-            = PeerConnectionFactory.builder()
+                = PeerConnectionFactory.builder()
                 .setAudioDeviceModule(adm)
                 .setVideoEncoderFactory(encoderFactory)
                 .setVideoDecoderFactory(decoderFactory)
@@ -148,8 +149,8 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
 
     void sendEvent(String eventName, @Nullable WritableMap params) {
         getReactApplicationContext()
-            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-            .emit(eventName, params);
+                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit(eventName, params);
     }
 
     private PeerConnection.IceServer createIceServer(String url) {
@@ -158,9 +159,9 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
 
     private PeerConnection.IceServer createIceServer(String url, String username, String credential) {
         return PeerConnection.IceServer.builder(url)
-            .setUsername(username)
-            .setPassword(credential)
-            .createIceServer();
+                .setUsername(username)
+                .setPassword(credential)
+                .createIceServer();
     }
 
     private List<PeerConnection.IceServer> createIceServers(ReadableArray iceServersArray) {
@@ -189,7 +190,7 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
                         for (int j = 0; j < urls.size(); j++) {
                             String url = urls.getString(j);
                             if (hasUsernameAndCredential) {
-                                iceServers.add(createIceServer(url,iceServerMap.getString("username"), iceServerMap.getString("credential")));
+                                iceServers.add(createIceServer(url, iceServerMap.getString("username"), iceServerMap.getString("credential")));
                             } else {
                                 iceServers.add(createIceServer(url));
                             }
@@ -217,18 +218,18 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
             final String v = map.getString("iceTransportPolicy");
             if (v != null) {
                 switch (v) {
-                case "all": // public
-                    conf.iceTransportsType = PeerConnection.IceTransportsType.ALL;
-                    break;
-                case "relay": // public
-                    conf.iceTransportsType = PeerConnection.IceTransportsType.RELAY;
-                    break;
-                case "nohost":
-                    conf.iceTransportsType = PeerConnection.IceTransportsType.NOHOST;
-                    break;
-                case "none":
-                    conf.iceTransportsType = PeerConnection.IceTransportsType.NONE;
-                    break;
+                    case "all": // public
+                        conf.iceTransportsType = PeerConnection.IceTransportsType.ALL;
+                        break;
+                    case "relay": // public
+                        conf.iceTransportsType = PeerConnection.IceTransportsType.RELAY;
+                        break;
+                    case "nohost":
+                        conf.iceTransportsType = PeerConnection.IceTransportsType.NOHOST;
+                        break;
+                    case "none":
+                        conf.iceTransportsType = PeerConnection.IceTransportsType.NONE;
+                        break;
                 }
             }
         }
@@ -239,15 +240,15 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
             final String v = map.getString("bundlePolicy");
             if (v != null) {
                 switch (v) {
-                case "balanced": // public
-                    conf.bundlePolicy = PeerConnection.BundlePolicy.BALANCED;
-                    break;
-                case "max-compat": // public
-                    conf.bundlePolicy = PeerConnection.BundlePolicy.MAXCOMPAT;
-                    break;
-                case "max-bundle": // public
-                    conf.bundlePolicy = PeerConnection.BundlePolicy.MAXBUNDLE;
-                    break;
+                    case "balanced": // public
+                        conf.bundlePolicy = PeerConnection.BundlePolicy.BALANCED;
+                        break;
+                    case "max-compat": // public
+                        conf.bundlePolicy = PeerConnection.BundlePolicy.MAXCOMPAT;
+                        break;
+                    case "max-bundle": // public
+                        conf.bundlePolicy = PeerConnection.BundlePolicy.MAXBUNDLE;
+                        break;
                 }
             }
         }
@@ -258,12 +259,12 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
             final String v = map.getString("rtcpMuxPolicy");
             if (v != null) {
                 switch (v) {
-                case "negotiate": // public
-                    conf.rtcpMuxPolicy = PeerConnection.RtcpMuxPolicy.NEGOTIATE;
-                    break;
-                case "require": // public
-                    conf.rtcpMuxPolicy = PeerConnection.RtcpMuxPolicy.REQUIRE;
-                    break;
+                    case "negotiate": // public
+                        conf.rtcpMuxPolicy = PeerConnection.RtcpMuxPolicy.NEGOTIATE;
+                        break;
+                    case "require": // public
+                        conf.rtcpMuxPolicy = PeerConnection.RtcpMuxPolicy.REQUIRE;
+                        break;
                 }
             }
         }
@@ -288,12 +289,12 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
             final String v = map.getString("tcpCandidatePolicy");
             if (v != null) {
                 switch (v) {
-                case "enabled":
-                    conf.tcpCandidatePolicy = PeerConnection.TcpCandidatePolicy.ENABLED;
-                    break;
-                case "disabled":
-                    conf.tcpCandidatePolicy = PeerConnection.TcpCandidatePolicy.DISABLED;
-                    break;
+                    case "enabled":
+                        conf.tcpCandidatePolicy = PeerConnection.TcpCandidatePolicy.ENABLED;
+                        break;
+                    case "disabled":
+                        conf.tcpCandidatePolicy = PeerConnection.TcpCandidatePolicy.DISABLED;
+                        break;
                 }
             }
         }
@@ -304,12 +305,12 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
             final String v = map.getString("candidateNetworkPolicy");
             if (v != null) {
                 switch (v) {
-                case "all":
-                    conf.candidateNetworkPolicy = PeerConnection.CandidateNetworkPolicy.ALL;
-                    break;
-                case "low_cost":
-                    conf.candidateNetworkPolicy = PeerConnection.CandidateNetworkPolicy.LOW_COST;
-                    break;
+                    case "all":
+                        conf.candidateNetworkPolicy = PeerConnection.CandidateNetworkPolicy.ALL;
+                        break;
+                    case "low_cost":
+                        conf.candidateNetworkPolicy = PeerConnection.CandidateNetworkPolicy.LOW_COST;
+                        break;
                 }
             }
         }
@@ -320,12 +321,12 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
             final String v = map.getString("keyType");
             if (v != null) {
                 switch (v) {
-                case "RSA":
-                    conf.keyType = PeerConnection.KeyType.RSA;
-                    break;
-                case "ECDSA":
-                    conf.keyType = PeerConnection.KeyType.ECDSA;
-                    break;
+                    case "RSA":
+                        conf.keyType = PeerConnection.KeyType.RSA;
+                        break;
+                    case "ECDSA":
+                        conf.keyType = PeerConnection.KeyType.ECDSA;
+                        break;
                 }
             }
         }
@@ -336,12 +337,12 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
             final String v = map.getString("continualGatheringPolicy");
             if (v != null) {
                 switch (v) {
-                case "gather_once":
-                    conf.continualGatheringPolicy = PeerConnection.ContinualGatheringPolicy.GATHER_ONCE;
-                    break;
-                case "gather_continually":
-                    conf.continualGatheringPolicy = PeerConnection.ContinualGatheringPolicy.GATHER_CONTINUALLY;
-                    break;
+                    case "gather_once":
+                        conf.continualGatheringPolicy = PeerConnection.ContinualGatheringPolicy.GATHER_ONCE;
+                        break;
+                    case "gather_continually":
+                        conf.continualGatheringPolicy = PeerConnection.ContinualGatheringPolicy.GATHER_CONTINUALLY;
+                        break;
                 }
             }
         }
@@ -396,10 +397,10 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void peerConnectionInit(ReadableMap configuration, int id) {
         PeerConnection.RTCConfiguration rtcConfiguration
-            = parseRTCConfiguration(configuration);
+                = parseRTCConfiguration(configuration);
 
         ThreadUtils.runOnExecutor(() ->
-            peerConnectionInitAsync(rtcConfiguration, id));
+                peerConnectionInitAsync(rtcConfiguration, id));
     }
 
     private void peerConnectionInitAsync(
@@ -407,7 +408,7 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
             int id) {
         PeerConnectionObserver observer = new PeerConnectionObserver(this, id);
         PeerConnection peerConnection
-            = mFactory.createPeerConnection(configuration, observer);
+                = mFactory.createPeerConnection(configuration, observer);
 
         observer.setPeerConnection(peerConnection);
         mPeerConnectionObservers.put(id, observer);
@@ -469,8 +470,8 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
      * Turns an "options" <tt>ReadableMap</tt> into a <tt>MediaConstraints</tt> object.
      *
      * @param options A <tt>ReadableMap</tt> which represents a JavaScript
-     * object specifying the options to be parsed into a
-     * <tt>MediaConstraints</tt> instance.
+     *                object specifying the options to be parsed into a
+     *                <tt>MediaConstraints</tt> instance.
      * @return A new <tt>MediaConstraints</tt> instance initialized with the
      * mandatory keys and values specified by <tt>options</tt>.
      */
@@ -495,16 +496,16 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void getUserMedia(ReadableMap constraints,
-                             Callback    successCallback,
-                             Callback    errorCallback) {
+                             Callback successCallback,
+                             Callback errorCallback) {
         ThreadUtils.runOnExecutor(() ->
-            getUserMediaImpl.getUserMedia(constraints, successCallback, errorCallback));
+                getUserMediaImpl.getUserMedia(constraints, successCallback, errorCallback));
     }
 
     @ReactMethod
     public void enumerateDevices(Callback callback) {
         ThreadUtils.runOnExecutor(() ->
-            callback.invoke(getUserMediaImpl.enumerateDevices()));
+                callback.invoke(getUserMediaImpl.enumerateDevices()));
     }
 
     @ReactMethod
@@ -520,7 +521,7 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void mediaStreamAddTrack(String streamId, String trackId) {
         ThreadUtils.runOnExecutor(() ->
-            mediaStreamAddTrackAsync(streamId, trackId));
+                mediaStreamAddTrackAsync(streamId, trackId));
     }
 
     private void mediaStreamAddTrackAsync(String streamId, String trackId) {
@@ -534,16 +535,16 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
 
         String kind = track.kind();
         if ("audio".equals(kind)) {
-            stream.addTrack((AudioTrack)track);
+            stream.addTrack((AudioTrack) track);
         } else if ("video".equals(kind)) {
-            stream.addTrack((VideoTrack)track);
+            stream.addTrack((VideoTrack) track);
         }
     }
 
     @ReactMethod
     public void mediaStreamRemoveTrack(String streamId, String trackId) {
         ThreadUtils.runOnExecutor(() ->
-            mediaStreamRemoveTrackAsync(streamId, trackId));
+                mediaStreamRemoveTrackAsync(streamId, trackId));
     }
 
     private void mediaStreamRemoveTrackAsync(String streamId, String trackId) {
@@ -557,9 +558,9 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
 
         String kind = track.kind();
         if ("audio".equals(kind)) {
-            stream.removeTrack((AudioTrack)track);
+            stream.removeTrack((AudioTrack) track);
         } else if ("video".equals(kind)) {
-            stream.removeTrack((VideoTrack)track);
+            stream.removeTrack((VideoTrack) track);
         }
     }
 
@@ -589,7 +590,7 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void mediaStreamTrackRelease(String id) {
         ThreadUtils.runOnExecutor(() ->
-            mediaStreamTrackReleaseAsync(id));
+                mediaStreamTrackReleaseAsync(id));
     }
 
     private void mediaStreamTrackReleaseAsync(String id) {
@@ -605,7 +606,7 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void mediaStreamTrackSetEnabled(String id, boolean enabled) {
         ThreadUtils.runOnExecutor(() ->
-            mediaStreamTrackSetEnabledAsync(id, enabled));
+                mediaStreamTrackSetEnabledAsync(id, enabled));
     }
 
     private void mediaStreamTrackSetEnabledAsync(String id, boolean enabled) {
@@ -640,7 +641,7 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
     public void peerConnectionSetConfiguration(ReadableMap configuration,
                                                int id) {
         ThreadUtils.runOnExecutor(() ->
-            peerConnectionSetConfigurationAsync(configuration, id));
+                peerConnectionSetConfigurationAsync(configuration, id));
     }
 
     private void peerConnectionSetConfigurationAsync(ReadableMap configuration,
@@ -656,7 +657,7 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void peerConnectionAddStream(String streamId, int id) {
         ThreadUtils.runOnExecutor(() ->
-            peerConnectionAddStreamAsync(streamId, id));
+                peerConnectionAddStreamAsync(streamId, id));
     }
 
     private void peerConnectionAddStreamAsync(String streamId, int id) {
@@ -674,7 +675,7 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void peerConnectionRemoveStream(String streamId, int id) {
         ThreadUtils.runOnExecutor(() ->
-            peerConnectionRemoveStreamAsync(streamId, id));
+                peerConnectionRemoveStreamAsync(streamId, id));
     }
 
     private void peerConnectionRemoveStreamAsync(String streamId, int id) {
@@ -694,7 +695,7 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
                                           ReadableMap options,
                                           Callback callback) {
         ThreadUtils.runOnExecutor(() ->
-            peerConnectionCreateOfferAsync(id, options, callback));
+                peerConnectionCreateOfferAsync(id, options, callback));
     }
 
     private void peerConnectionCreateOfferAsync(int id,
@@ -718,10 +719,12 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
                 }
 
                 @Override
-                public void onSetFailure(String s) {}
+                public void onSetFailure(String s) {
+                }
 
                 @Override
-                public void onSetSuccess() {}
+                public void onSetSuccess() {
+                }
             }, constraintsForOptions(options));
         } else {
             Log.d(TAG, "peerConnectionCreateOffer() peerConnection is null");
@@ -734,7 +737,7 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
                                            ReadableMap options,
                                            Callback callback) {
         ThreadUtils.runOnExecutor(() ->
-            peerConnectionCreateAnswerAsync(id, options, callback));
+                peerConnectionCreateAnswerAsync(id, options, callback));
     }
 
     private void peerConnectionCreateAnswerAsync(int id,
@@ -758,10 +761,12 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
                 }
 
                 @Override
-                public void onSetFailure(String s) {}
+                public void onSetFailure(String s) {
+                }
 
                 @Override
-                public void onSetSuccess() {}
+                public void onSetSuccess() {
+                }
             }, constraintsForOptions(options));
         } else {
             Log.d(TAG, "peerConnectionCreateAnswer() peerConnection is null");
@@ -774,7 +779,7 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
                                                   int id,
                                                   Callback callback) {
         ThreadUtils.runOnExecutor(() ->
-            peerConnectionSetLocalDescriptionAsync(sdpMap, id, callback));
+                peerConnectionSetLocalDescriptionAsync(sdpMap, id, callback));
     }
 
     private void peerConnectionSetLocalDescriptionAsync(ReadableMap sdpMap,
@@ -785,8 +790,8 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
         Log.d(TAG, "peerConnectionSetLocalDescription() start");
         if (peerConnection != null) {
             SessionDescription sdp = new SessionDescription(
-                SessionDescription.Type.fromCanonicalForm(sdpMap.getString("type")),
-                sdpMap.getString("sdp")
+                    SessionDescription.Type.fromCanonicalForm(sdpMap.getString("type")),
+                    sdpMap.getString("sdp")
             );
 
             peerConnection.setLocalDescription(new SdpObserver() {
@@ -820,7 +825,7 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
                                                    int id,
                                                    Callback callback) {
         ThreadUtils.runOnExecutor(() ->
-            peerConnectionSetRemoteDescriptionAsync(sdpMap, id, callback));
+                peerConnectionSetRemoteDescriptionAsync(sdpMap, id, callback));
     }
 
     private void peerConnectionSetRemoteDescriptionAsync(ReadableMap sdpMap,
@@ -831,8 +836,8 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
         Log.d(TAG, "peerConnectionSetRemoteDescription() start");
         if (peerConnection != null) {
             SessionDescription sdp = new SessionDescription(
-                SessionDescription.Type.fromCanonicalForm(sdpMap.getString("type")),
-                sdpMap.getString("sdp")
+                    SessionDescription.Type.fromCanonicalForm(sdpMap.getString("type")),
+                    sdpMap.getString("sdp")
             );
 
             peerConnection.setRemoteDescription(new SdpObserver() {
@@ -866,7 +871,7 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
                                               int id,
                                               Callback callback) {
         ThreadUtils.runOnExecutor(() ->
-            peerConnectionAddICECandidateAsync(candidateMap, id, callback));
+                peerConnectionAddICECandidateAsync(candidateMap, id, callback));
     }
 
     private void peerConnectionAddICECandidateAsync(ReadableMap candidateMap,
@@ -877,9 +882,9 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
         Log.d(TAG, "peerConnectionAddICECandidate() start");
         if (peerConnection != null) {
             IceCandidate candidate = new IceCandidate(
-                candidateMap.getString("sdpMid"),
-                candidateMap.getInt("sdpMLineIndex"),
-                candidateMap.getString("candidate")
+                    candidateMap.getString("sdpMid"),
+                    candidateMap.getInt("sdpMLineIndex"),
+                    candidateMap.getString("candidate")
             );
             result = peerConnection.addIceCandidate(candidate);
         } else {
@@ -892,7 +897,7 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void peerConnectionGetStats(int peerConnectionId, Promise promise) {
         ThreadUtils.runOnExecutor(() ->
-            peerConnectionGetStatsAsync(peerConnectionId, promise));
+                peerConnectionGetStatsAsync(peerConnectionId, promise));
     }
 
     private void peerConnectionGetStatsAsync(int peerConnectionId,
@@ -926,7 +931,7 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
                                   String label,
                                   ReadableMap config) {
         ThreadUtils.runOnExecutor(() ->
-            createDataChannelAsync(peerConnectionId, label, config));
+                createDataChannelAsync(peerConnectionId, label, config));
     }
 
     private void createDataChannelAsync(int peerConnectionId,
@@ -935,7 +940,7 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
         // Forward to PeerConnectionObserver which deals with DataChannels
         // because DataChannel is owned by PeerConnection.
         PeerConnectionObserver pco
-            = mPeerConnectionObservers.get(peerConnectionId);
+                = mPeerConnectionObservers.get(peerConnectionId);
         if (pco == null || pco.getPeerConnection() == null) {
             Log.d(TAG, "createDataChannel() peerConnection is null");
         } else {
@@ -946,7 +951,7 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void dataChannelClose(int peerConnectionId, int dataChannelId) {
         ThreadUtils.runOnExecutor(() ->
-            dataChannelCloseAsync(peerConnectionId, dataChannelId));
+                dataChannelCloseAsync(peerConnectionId, dataChannelId));
     }
 
     private void dataChannelCloseAsync(int peerConnectionId,
@@ -954,7 +959,7 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
         // Forward to PeerConnectionObserver which deals with DataChannels
         // because DataChannel is owned by PeerConnection.
         PeerConnectionObserver pco
-            = mPeerConnectionObservers.get(peerConnectionId);
+                = mPeerConnectionObservers.get(peerConnectionId);
         if (pco == null || pco.getPeerConnection() == null) {
             Log.d(TAG, "dataChannelClose() peerConnection is null");
         } else {
@@ -968,7 +973,7 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
                                 String data,
                                 String type) {
         ThreadUtils.runOnExecutor(() ->
-            dataChannelSendAsync(peerConnectionId, dataChannelId, data, type));
+                dataChannelSendAsync(peerConnectionId, dataChannelId, data, type));
     }
 
     private void dataChannelSendAsync(int peerConnectionId,
@@ -978,7 +983,7 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
         // Forward to PeerConnectionObserver which deals with DataChannels
         // because DataChannel is owned by PeerConnection.
         PeerConnectionObserver pco
-            = mPeerConnectionObservers.get(peerConnectionId);
+                = mPeerConnectionObservers.get(peerConnectionId);
         if (pco == null || pco.getPeerConnection() == null) {
             Log.d(TAG, "dataChannelSend() peerConnection is null");
         } else {
